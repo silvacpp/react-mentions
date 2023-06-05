@@ -50,33 +50,35 @@ const applyChangeToValue = (
   let willRemoveMention = false
 
   // let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
-
+  console.log('here',mappedSpliceStart,mappedSpliceEnd)
+  console.log('here2',controlSpliceStart,controlSpliceEnd)
   if (!willRemoveMention) {
     // test for auto-completion changes
     let controlPlainTextValue = getPlainText(newValue, config)
     if (controlPlainTextValue !== plainTextValue) {
       // some auto-correction is going on
-
+      
       // find start of diff
       spliceStart = 0
       while (plainTextValue[spliceStart] === controlPlainTextValue[spliceStart])
-        spliceStart++
-
+      spliceStart++
+      
       // extract auto-corrected insertion
       insert = plainTextValue.slice(spliceStart, selectionEndAfter)
-
+      
       // find index of the unchanged remainder
       spliceEnd = oldPlainTextValue.lastIndexOf(
         plainTextValue.substring(selectionEndAfter)
-      )
-
-      // re-map the corrected indices
-      mappedSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'START')
-      mappedSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'END')
-      newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
+        )
+        
+        // re-map the corrected indices
+        mappedSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'START')
+        mappedSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'END')
+        newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
+      }
     }
-  }
-
+    
+  console.log('here3',plainTextValue,newValue)
   return newValue
 }
 
