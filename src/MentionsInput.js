@@ -537,7 +537,11 @@ class MentionsInput extends React.Component {
 
     // Adjust selection range in case a mention will be deleted by the characters outside of the
     // selection range that are automatically deleted
-    let startOfMention = undefined
+    let startOfMention = findStartOfMentionInPlainText(
+      value,
+      config,
+      selectionStart
+    )
 
     if (
       startOfMention !== undefined &&
