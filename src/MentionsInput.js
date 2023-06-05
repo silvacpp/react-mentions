@@ -247,7 +247,7 @@ class MentionsInput extends React.Component {
   }
 
   renderTextarea = (props) => {
-    return <textarea autoFocus ref={this.setInputRef} {...props} />
+    return <textarea ref={this.setInputRef} {...props} />
   }
 
   setInputRef = (el) => {
@@ -284,7 +284,7 @@ class MentionsInput extends React.Component {
         scrollFocusedIntoView={this.state.scrollFocusedIntoView}
         containerRef={this.setSuggestionsElement}
         suggestions={this.state.suggestions}
-        customSuggestionsContainer={this.props.customSuggestionsContainer}
+        customSuggestionsContainer ={this.props.customSuggestionsContainer}
         onSelect={this.addMention}
         onMouseDown={this.handleSuggestionsMouseDown}
         onMouseEnter={this.handleSuggestionsMouseEnter}
@@ -486,9 +486,7 @@ class MentionsInput extends React.Component {
     ].join('')
     const newPlainTextValue = getPlainText(newValue, config)
 
-    const eventMock = {
-      target: { ...event.target, value: newPlainTextValue },
-    }
+    const eventMock = { target: { ...event.target, value: newPlainTextValue } }
 
     this.executeOnChange(
       eventMock,
@@ -501,7 +499,7 @@ class MentionsInput extends React.Component {
   // Handle input element's change event
   handleChange = (ev) => {
     isComposing = false
-    if (isIE()) {
+    if(isIE()){
       // if we are inside iframe, we need to find activeElement within its contentDocument
       const currentDocument =
         (document.activeElement && document.activeElement.contentDocument) ||
@@ -517,13 +515,23 @@ class MentionsInput extends React.Component {
 
     let newPlainTextValue = ev.target.value
 
+    let selectionStartBefore = this.state.selectionStart;
+    if(selectionStartBefore == null) {
+      selectionStartBefore = ev.target.selectionStart;
+    }
+
+    let selectionEndBefore = this.state.selectionEnd;
+    if(selectionEndBefore == null) {
+      selectionEndBefore = ev.target.selectionEnd;
+    }
+
     // Derive the new value to set by applying the local change in the textarea's plain text
     let newValue = applyChangeToValue(
       value,
       newPlainTextValue,
       {
-        selectionStartBefore: this.state.selectionStart,
-        selectionEndBefore: this.state.selectionEnd,
+        selectionStartBefore,
+        selectionEndBefore,
         selectionEndAfter: ev.target.selectionEnd,
       },
       config
@@ -699,11 +707,7 @@ class MentionsInput extends React.Component {
 
   updateSuggestionsPosition = () => {
     let { caretPosition } = this.state
-    const {
-      suggestionsPortalHost,
-      allowSuggestionsAboveCursor,
-      forceSuggestionsAboveCursor,
-    } = this.props
+    const { suggestionsPortalHost, allowSuggestionsAboveCursor, forceSuggestionsAboveCursor } = this.props
 
     if (!caretPosition || !this.suggestionsElement) {
       return
@@ -755,9 +759,9 @@ class MentionsInput extends React.Component {
       // is small enough to NOT cover up the caret
       if (
         (allowSuggestionsAboveCursor &&
-          top + suggestions.offsetHeight > viewportHeight &&
+        top + suggestions.offsetHeight > viewportHeight &&
           suggestions.offsetHeight < top - caretHeight) ||
-        forceSuggestionsAboveCursor
+          forceSuggestionsAboveCursor
       ) {
         position.top = Math.max(0, top - suggestions.offsetHeight - caretHeight)
       } else {
@@ -777,12 +781,12 @@ class MentionsInput extends React.Component {
       // is small enough to NOT cover up the caret
       if (
         (allowSuggestionsAboveCursor &&
-          viewportRelative.top -
-            highlighter.scrollTop +
-            suggestions.offsetHeight >
-            viewportHeight &&
-          suggestions.offsetHeight <
-            caretOffsetParentRect.top - caretHeight - highlighter.scrollTop) ||
+        viewportRelative.top -
+          highlighter.scrollTop +
+          suggestions.offsetHeight >
+          viewportHeight &&
+        suggestions.offsetHeight <
+          caretOffsetParentRect.top - caretHeight - highlighter.scrollTop) ||
         forceSuggestionsAboveCursor
       ) {
         position.top = top - suggestions.offsetHeight - caretHeight
@@ -998,9 +1002,7 @@ class MentionsInput extends React.Component {
 
     const start = mapPlainTextIndex(value, config, querySequenceStart, 'START')
     const end = start + querySequenceEnd - querySequenceStart
-
     let insert = makeMentionsMarkup(markup, id, display)
-
     if (appendSpaceOnAdd) {
       insert += ' '
     }
