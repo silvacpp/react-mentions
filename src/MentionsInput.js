@@ -515,30 +515,20 @@ class MentionsInput extends React.Component {
 
     let newPlainTextValue = ev.target.value
 
-    let selectionStartBefore = this.state.selectionStart;
-    if(selectionStartBefore == null) {
-      selectionStartBefore = ev.target.selectionStart;
-    }
-
-    let selectionEndBefore = this.state.selectionEnd;
-    if(selectionEndBefore == null) {
-      selectionEndBefore = ev.target.selectionEnd;
-    }
-
     // Derive the new value to set by applying the local change in the textarea's plain text
     let newValue = applyChangeToValue(
       value,
       newPlainTextValue,
       {
-        selectionStartBefore,
-        selectionEndBefore,
+        selectionStartBefore: this.state.selectionStart,
+        selectionEndBefore: this.state.selectionEnd,
         selectionEndAfter: ev.target.selectionEnd,
       },
       config
     )
 
     // In case a mention is deleted, also adjust the new plain text value
-    newPlainTextValue = getPlainText(newValue, config)
+    // newPlainTextValue = getPlainText(newValue, config)
 
     // Save current selection after change to be able to restore caret position after rerendering
     let selectionStart = ev.target.selectionStart
@@ -558,10 +548,10 @@ class MentionsInput extends React.Component {
       this.state.selectionEnd > startOfMention
     ) {
       // only if a deletion has taken place
-      selectionStart =
-        startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0)
-      selectionEnd = selectionStart
-      setSelectionAfterMentionChange = true
+      // selectionStart =
+      //   startOfMention + (ev.nativeEvent.data ? ev.nativeEvent.data.length : 0)
+      // selectionEnd = selectionStart
+      // setSelectionAfterMentionChange = true
     }
 
     this.setState({
