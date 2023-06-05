@@ -55,8 +55,7 @@ const applyChangeToValue = (
   let controlSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'NULL')
   let willRemoveMention = false
 
-  let newValue
-  // let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
+  let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
 
   if (!willRemoveMention) {
     // test for auto-completion changes
