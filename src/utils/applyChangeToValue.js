@@ -35,7 +35,7 @@ const applyChangeToValue = (
     selectionStartBefore = selectionStartBefore - 1
   }
 
-  console.log("LOOG", selectionStartBefore, selectionEndAfter)
+  console.log('LOOG', selectionStartBefore, selectionEndAfter)
   // extract the insertion from the new plain text value
   let insert = plainTextValue.slice(selectionStartBefore, selectionEndAfter)
 
@@ -48,13 +48,14 @@ const applyChangeToValue = (
     spliceEnd = Math.max(selectionEndBefore, selectionStartBefore + lengthDelta)
   }
 
-  let mappedSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'START')
-  let mappedSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'END')
+  let mappedSpliceStart = spliceStart // mapPlainTextIndex(value, config, spliceStart, 'START')
+  let mappedSpliceEnd = spliceEnd //mapPlainTextIndex(value, config, spliceEnd, 'END')
 
   let controlSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'NULL')
   let controlSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'NULL')
   let willRemoveMention = false
 
+  let newValue
   // let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
   console.log('here', mappedSpliceStart, mappedSpliceEnd)
   console.log('here2', controlSpliceStart, controlSpliceEnd)
