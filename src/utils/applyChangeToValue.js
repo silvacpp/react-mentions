@@ -57,8 +57,7 @@ const applyChangeToValue = (
 
   let newValue
   // let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
-  console.log('here', mappedSpliceStart, mappedSpliceEnd)
-  console.log('here2', controlSpliceStart, controlSpliceEnd)
+
   if (!willRemoveMention) {
     // test for auto-completion changes
     let controlPlainTextValue = getPlainText(newValue, config)
