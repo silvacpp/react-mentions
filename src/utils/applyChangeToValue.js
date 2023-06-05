@@ -12,6 +12,11 @@ const applyChangeToValue = (
 ) => {
   let oldPlainTextValue = getPlainText(value, config)
 
+  console.log('INIT', {
+    selectionStartBefore,
+    selectionEndBefore,
+    selectionEndAfter,
+  })
   let lengthDelta = oldPlainTextValue.length - plainTextValue.length
   if (selectionStartBefore === 'undefined') {
     selectionStartBefore = selectionEndAfter + lengthDelta
@@ -30,6 +35,7 @@ const applyChangeToValue = (
     selectionStartBefore = selectionStartBefore - 1
   }
 
+  console.log("LOOG", selectionStartBefore, selectionEndAfter)
   // extract the insertion from the new plain text value
   let insert = plainTextValue.slice(selectionStartBefore, selectionEndAfter)
 
@@ -50,35 +56,35 @@ const applyChangeToValue = (
   let willRemoveMention = false
 
   // let newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
-  console.log('here',mappedSpliceStart,mappedSpliceEnd)
-  console.log('here2',controlSpliceStart,controlSpliceEnd)
+  console.log('here', mappedSpliceStart, mappedSpliceEnd)
+  console.log('here2', controlSpliceStart, controlSpliceEnd)
   if (!willRemoveMention) {
     // test for auto-completion changes
     let controlPlainTextValue = getPlainText(newValue, config)
     if (controlPlainTextValue !== plainTextValue) {
       // some auto-correction is going on
-      
+
       // find start of diff
       spliceStart = 0
       while (plainTextValue[spliceStart] === controlPlainTextValue[spliceStart])
-      spliceStart++
-      
+        spliceStart++
+
       // extract auto-corrected insertion
       insert = plainTextValue.slice(spliceStart, selectionEndAfter)
-      
+
       // find index of the unchanged remainder
       spliceEnd = oldPlainTextValue.lastIndexOf(
         plainTextValue.substring(selectionEndAfter)
-        )
-        
-        // re-map the corrected indices
-        mappedSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'START')
-        mappedSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'END')
-        newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
-      }
+      )
+
+      // re-map the corrected indices
+      mappedSpliceStart = mapPlainTextIndex(value, config, spliceStart, 'START')
+      mappedSpliceEnd = mapPlainTextIndex(value, config, spliceEnd, 'END')
+      newValue = spliceString(value, mappedSpliceStart, mappedSpliceEnd, insert)
     }
-    
-  console.log('here3',plainTextValue,newValue)
+  }
+
+  console.log('here3', plainTextValue, newValue)
   return newValue
 }
 
