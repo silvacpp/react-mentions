@@ -24,6 +24,7 @@ import PropTypes from 'prop-types'
 import ReactDOM from 'react-dom'
 import SuggestionsOverlay from './SuggestionsOverlay'
 import { defaultStyle } from './utils'
+import { isUndo, isRedo } from './utils/undoRedo'
 
 export const makeTriggerRegex = function(trigger, options = {}) {
   if (trigger instanceof RegExp) {
@@ -126,6 +127,12 @@ class MentionsInput extends React.Component {
     this.handleCut = this.handleCut.bind(this)
     this.handlePaste = this.handlePaste.bind(this)
 
+    this.loads = []
+    this.undo = []
+    this.redo = []
+    this.ref = props.value
+
+    this.schedules = []
     this.state = {
       focusIndex: 0,
 
@@ -284,7 +291,7 @@ class MentionsInput extends React.Component {
         scrollFocusedIntoView={this.state.scrollFocusedIntoView}
         containerRef={this.setSuggestionsElement}
         suggestions={this.state.suggestions}
-        customSuggestionsContainer ={this.props.customSuggestionsContainer}
+        customSuggestionsContainer={this.props.customSuggestionsContainer}
         onSelect={this.addMention}
         onMouseDown={this.handleSuggestionsMouseDown}
         onMouseEnter={this.handleSuggestionsMouseEnter}
@@ -342,12 +349,34 @@ class MentionsInput extends React.Component {
   }
 
   executeOnChange = (event, ...args) => {
+    if (!args.undoRedo) {
+      this.redo = []
+      this.last != null && this.undo.push(this.last)
+    }
+    this.last = event.target.value
+
     if (this.props.onChange) {
       return this.props.onChange(event, ...args)
     }
 
     if (this.props.valueLink) {
       return this.props.valueLink.requestChange(event.target.value, ...args)
+    }
+  }
+
+  undo = () => {
+    if (this.undo.length > 0) {
+      this.redo.push(this.props.value)
+      const val = this.undo.pop()
+      this.executeOnChange(val, { undoRedo: true })
+    }
+  }
+
+  redo = () => {
+    if (this.redo.length > 0) {
+      const val = this.redo.pop()
+      this.undo.push(this.props.value)
+      this.executeOnChange(val, { undoRedo: true })
     }
   }
 
@@ -499,7 +528,7 @@ class MentionsInput extends React.Component {
   // Handle input element's change event
   handleChange = (ev) => {
     isComposing = false
-    if(isIE()){
+    if (isIE()) {
       // if we are inside iframe, we need to find activeElement within its contentDocument
       const currentDocument =
         (document.activeElement && document.activeElement.contentDocument) ||
@@ -593,6 +622,14 @@ class MentionsInput extends React.Component {
       ev.stopPropagation()
     }
 
+    if (isUndo(ev)) {
+      this.undo()
+      return
+    } else if (isRedo(ev)) {
+      this.redo()
+      return
+    }
+
     switch (ev.keyCode) {
       case KEY.ESC: {
         this.clearSuggestions()
@@ -681,7 +718,11 @@ class MentionsInput extends React.Component {
 
   updateSuggestionsPosition = () => {
     let { caretPosition } = this.state
-    const { suggestionsPortalHost, allowSuggestionsAboveCursor, forceSuggestionsAboveCursor } = this.props
+    const {
+      suggestionsPortalHost,
+      allowSuggestionsAboveCursor,
+      forceSuggestionsAboveCursor,
+    } = this.props
 
     if (!caretPosition || !this.suggestionsElement) {
       return
@@ -733,9 +774,9 @@ class MentionsInput extends React.Component {
       // is small enough to NOT cover up the caret
       if (
         (allowSuggestionsAboveCursor &&
-        top + suggestions.offsetHeight > viewportHeight &&
+          top + suggestions.offsetHeight > viewportHeight &&
           suggestions.offsetHeight < top - caretHeight) ||
-          forceSuggestionsAboveCursor
+        forceSuggestionsAboveCursor
       ) {
         position.top = Math.max(0, top - suggestions.offsetHeight - caretHeight)
       } else {
@@ -755,12 +796,12 @@ class MentionsInput extends React.Component {
       // is small enough to NOT cover up the caret
       if (
         (allowSuggestionsAboveCursor &&
-        viewportRelative.top -
-          highlighter.scrollTop +
-          suggestions.offsetHeight >
-          viewportHeight &&
-        suggestions.offsetHeight <
-          caretOffsetParentRect.top - caretHeight - highlighter.scrollTop) ||
+          viewportRelative.top -
+            highlighter.scrollTop +
+            suggestions.offsetHeight >
+            viewportHeight &&
+          suggestions.offsetHeight <
+            caretOffsetParentRect.top - caretHeight - highlighter.scrollTop) ||
         forceSuggestionsAboveCursor
       ) {
         position.top = top - suggestions.offsetHeight - caretHeight
