@@ -12,11 +12,6 @@ const applyChangeToValue = (
 ) => {
   let oldPlainTextValue = getPlainText(value, config)
 
-  console.log('INIT', {
-    selectionStartBefore,
-    selectionEndBefore,
-    selectionEndAfter,
-  })
   let lengthDelta = oldPlainTextValue.length - plainTextValue.length
   if (selectionStartBefore === 'undefined') {
     selectionStartBefore = selectionEndAfter + lengthDelta
@@ -35,7 +30,6 @@ const applyChangeToValue = (
     selectionStartBefore = selectionStartBefore - 1
   }
 
-  console.log('LOOG', selectionStartBefore, selectionEndAfter)
   // extract the insertion from the new plain text value
   let insert = plainTextValue.slice(selectionStartBefore, selectionEndAfter)
 
