@@ -366,7 +366,7 @@ class MentionsInput extends React.Component {
     if (this.undo.length > 0) {
       this.redo.push(this.props.value)
       const val = this.undo.pop()
-      this.last = this.props.value
+      this.last = null
       this.props.onChange({ target: { value: val } })
     }
   }
@@ -375,7 +375,7 @@ class MentionsInput extends React.Component {
     if (this.redo.length > 0) {
       const val = this.redo.pop()
       this.undo.push(this.props.value)
-      this.last = this.props.value
+      this.last = null
       this.props.onChange({ target: { value: val } })
     }
   }
