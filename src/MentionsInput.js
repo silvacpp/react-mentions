@@ -624,9 +624,11 @@ class MentionsInput extends React.Component {
 
     if (isUndo(ev)) {
       this.undo()
+      ev.preventDefault()
       return
     } else if (isRedo(ev)) {
       this.redo()
+      ev.preventDefault()
       return
     }
 
