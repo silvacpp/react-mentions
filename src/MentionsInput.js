@@ -349,10 +349,8 @@ class MentionsInput extends React.Component {
   }
 
   executeOnChange = (event, ...args) => {
-    if (!args.undoRedo) {
-      this.redo = []
-      this.last != null && this.undo.push(this.last)
-    }
+    this.redo = []
+    this.last != null && this.undo.push(this.last)
     this.last = event.target.value
 
     if (this.props.onChange) {
@@ -365,18 +363,23 @@ class MentionsInput extends React.Component {
   }
 
   doUndo = () => {
+    console.log('AquiiiiiUndo', this.props.value)
     if (this.undo.length > 0) {
+      console.log('aquiii pop')
       this.redo.push(this.props.value)
       const val = this.undo.pop()
-      this.executeOnChange({ target: { value: val } }, { undoRedo: true })
+      this.props.onChange({ target: { value: val } })
     }
   }
 
   doRedo = () => {
+    console.log('AquiiiiiRedo', this.props.value)
+
     if (this.redo.length > 0) {
+      console.log('aquiii pop')
       const val = this.redo.pop()
       this.undo.push(this.props.value)
-      this.executeOnChange({ target: { value: val } }, { undoRedo: true })
+      this.props.onChange({ target: { value: val } })
     }
   }
 
