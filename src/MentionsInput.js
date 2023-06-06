@@ -363,22 +363,19 @@ class MentionsInput extends React.Component {
   }
 
   doUndo = () => {
-    console.log('AquiiiiiUndo', this.props.value)
     if (this.undo.length > 0) {
-      console.log('aquiii pop')
       this.redo.push(this.props.value)
       const val = this.undo.pop()
+      this.last = this.props.value
       this.props.onChange({ target: { value: val } })
     }
   }
 
   doRedo = () => {
-    console.log('AquiiiiiRedo', this.props.value)
-
     if (this.redo.length > 0) {
-      console.log('aquiii pop')
       const val = this.redo.pop()
       this.undo.push(this.props.value)
+      this.last = this.props.value
       this.props.onChange({ target: { value: val } })
     }
   }
