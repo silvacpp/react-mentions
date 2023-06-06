@@ -364,7 +364,7 @@ class MentionsInput extends React.Component {
     }
   }
 
-  undo = () => {
+  doUndo = () => {
     if (this.undo.length > 0) {
       this.redo.push(this.props.value)
       const val = this.undo.pop()
@@ -372,7 +372,7 @@ class MentionsInput extends React.Component {
     }
   }
 
-  redo = () => {
+  doRedo = () => {
     if (this.redo.length > 0) {
       const val = this.redo.pop()
       this.undo.push(this.props.value)
@@ -610,15 +610,15 @@ class MentionsInput extends React.Component {
   handleKeyDown = (ev) => {
     // do not intercept key events if the suggestions overlay is not shown
     console.log('keyDown')
-
+    console.log('this', this.undo, this.redo)
     if (isUndo(ev)) {
       console.log('isUndo')
-      this.undo()
+      this.doUndo()
       ev.preventDefault()
       return
     } else if (isRedo(ev)) {
       console.log('isRedo')
-      this.redo()
+      this.doRedo()
       ev.preventDefault()
       return
     }
