@@ -77,7 +77,6 @@ const applyChangeToValue = (
     }
   }
 
-  console.log('here3', plainTextValue, newValue)
   return newValue
 }
 

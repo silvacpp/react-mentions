@@ -609,6 +609,20 @@ class MentionsInput extends React.Component {
 
   handleKeyDown = (ev) => {
     // do not intercept key events if the suggestions overlay is not shown
+    console.log('keyDown')
+
+    if (isUndo(ev)) {
+      console.log('isUndo')
+      this.undo()
+      ev.preventDefault()
+      return
+    } else if (isRedo(ev)) {
+      console.log('isRedo')
+      this.redo()
+      ev.preventDefault()
+      return
+    }
+
     const suggestionsCount = countSuggestions(this.state.suggestions)
 
     if (suggestionsCount === 0 || !this.suggestionsElement) {
@@ -620,16 +634,6 @@ class MentionsInput extends React.Component {
     if (Object.values(KEY).indexOf(ev.keyCode) >= 0) {
       ev.preventDefault()
       ev.stopPropagation()
-    }
-
-    if (isUndo(ev)) {
-      this.undo()
-      ev.preventDefault()
-      return
-    } else if (isRedo(ev)) {
-      this.redo()
-      ev.preventDefault()
-      return
     }
 
     switch (ev.keyCode) {
