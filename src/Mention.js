@@ -8,7 +8,7 @@ const defaultStyle = {
 
 const Mention = ({ display, style, className, classNames }) => {
   const styles = useStyles(defaultStyle, { style, className, classNames })
-  return <strong {...styles}>{display}</strong>
+  return <strong {...styles} className={className}>{display}</strong>
 }
 
 Mention.propTypes = {
