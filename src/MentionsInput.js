@@ -131,7 +131,7 @@ class MentionsInput extends React.Component {
     this.undo = []
     this.redo = []
     this.ref = props.value
-
+    this.last = props.value || ''
     this.schedules = []
     this.state = {
       focusIndex: 0,
@@ -366,7 +366,7 @@ class MentionsInput extends React.Component {
     if (this.undo.length > 0) {
       this.redo.push(this.props.value)
       const val = this.undo.pop()
-      this.last = null
+      this.last = this.props.value
       this.props.onChange({ target: { value: val } })
     }
   }
