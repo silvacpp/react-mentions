@@ -31,7 +31,7 @@ export const makeTriggerRegex = function(trigger, options = {}) {
     return trigger
   } else {
     const { allowSpaceInQuery } = options
-    const escapedTriggerChar = escapeRegex(trigger)
+    const escapedTriggerChar = trigger
 
     // first capture group is the part to be replaced on completion
     // second capture group is for extracting the search query
