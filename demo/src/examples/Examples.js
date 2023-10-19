@@ -13,6 +13,7 @@ import SingleLineIgnoringAccents from './SingleLineIgnoringAccents'
 import SuggestionPortal from './SuggestionPortal'
 import BottomGuard from './BottomGuard'
 import CustomSuggestionsContainer from './CustomSuggestionsContainer'
+import ReplaceMarkupOnPaste from './ReplaceMarkupOnPaste'
 
 const users = [
   {
@@ -77,8 +78,9 @@ export default function Examples() {
   return (
     <StylesViaJss>
       <div>
+        <ReplaceMarkupOnPaste data={flowVariables} />
         <MultipleTrigger data={users} />
-        <SingleLine data={users} />
+        <SingleLine data={flowVariables} />
         <SingleLineIgnoringAccents data={users} />
         <Scrollable data={users} />
         <Advanced data={users} />
@@ -94,3 +96,74 @@ export default function Examples() {
     </StylesViaJss>
   )
 }
+
+const flowVariables = [
+  {
+    id: 'name',
+    display: 'flow.name',
+  },
+  {
+    id: 'agent',
+    display: 'flow.agent',
+  },
+  {
+    id: 'address',
+    display: 'flow.address',
+  },
+  {
+    id: 'city',
+    display: 'flow.city',
+  },
+  {
+    id: 'state',
+    display: 'flow.state',
+  },
+  {
+    id: 'street',
+    display: 'flow.street',
+  },
+  {
+    id: 'number',
+    display: 'flow.number',
+  },
+  {
+    id: 'phone',
+    display: 'flow.phone',
+  },
+  {
+    id: 'operation',
+    display: 'flow.operation',
+  },
+  {
+    id: 'paymentMethod',
+    display: 'flow.payment method',
+  },
+  {
+    id: 'currency',
+    display: 'flow.currency',
+  },
+  {
+    id: 'interval',
+    display: 'flow.interval',
+  },
+  {
+    id: 'dueDate',
+    display: 'flow.dueDate',
+  },
+  {
+    id: 'billet',
+    display: 'flow.billet',
+  },
+  {
+    id: 'payment',
+    display: 'flow.payment',
+  },
+  {
+    id: 'cnpj',
+    display: 'flow.cnpj',
+  },
+  ...Array.from(Array(2000)).map((_, i) => ({
+    id: 'id' + i,
+    display: 'flow.id' + i,
+  })),
+]
