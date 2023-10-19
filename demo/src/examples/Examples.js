@@ -80,7 +80,7 @@ export default function Examples() {
       <div>
         <ReplaceMarkupOnPaste data={flowVariables} />
         <MultipleTrigger data={users} />
-        <SingleLine data={flowVariables} />
+        <SingleLine data={users} />
         <SingleLineIgnoringAccents data={users} />
         <Scrollable data={users} />
         <Advanced data={users} />
