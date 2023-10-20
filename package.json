@@ -1,9 +1,9 @@
 {
-  "name": "react-mentions",
-  "version": "4.6.6",
+  "name": "react-mentions-silvacpp",
+  "version": "0.0.1",
   "description": "React mentions input",
-  "main": "dist/react-mentions.cjs.js",
-  "module": "dist/react-mentions.esm.js",
+  "main": "dist/react-mentions-silvacpp.cjs.js",
+  "module": "dist/react-mentions-silvacpp.esm.js",
   "files": [
     "dist"
   ],
